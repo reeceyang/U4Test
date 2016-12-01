@@ -43,29 +43,42 @@ public class U4Test extends JApplet {
 		boolean foundPrime = false;
 		long p = 0;
 
-		long count = 6 - (n % 6);
+		// All primes are of the form 6k +- 1. We must set count to a
+		// number so that count + n is of the form 6k +- 1
+		long count;
+		// Sets count so count + n is divisible by 6 to start
+		count = 6 - (n % 6);
+		// next will be added to count after each iteration to go to
+		// the next number
 		int next = 0;
+		// If n + count - 1 is less than n, then add 1 instead
 		if (n + count - 1 < n) {
 
 			count += 1;
+			// next is 4 because 6k+1+4=6(k+1)-1
 			next = 4;
 		}
+		// Otherwise, subtract 1
 		else {
 
 			count -= 1;
+			// next is 2 because 6k-1+2=6k+1
 			next = 2;
 		}
 
-
+		// keep looping while we haven't found a prime
 		while (!foundPrime) {
 
+			// test if n + count is prime
 			if (isPrime(n + count)) {
 
 				p = n + count;
 				foundPrime = true;
 			}
 
+			// advance count to the next number
 			count += next;
+			// if next is 2, then set next to 4 and vice versa
 			next = next == 2 ? 4 : 2;
 		}
 
@@ -109,23 +122,30 @@ public class U4Test extends JApplet {
 
 		return true; */
 
+		// any less than or equal to 1 is false
 		if (n <= 1) {
 
 			return false;
 		}
+		// 2 and 3 are prime
 		else if (n <= 3) {
 
 			return true;
 		}
 		// We don't need to test for divisibility by 2 because n is already
-		// odd.
+		// odd. We do this to minimize the amount of modulus operations
 		else if (n % 3 == 0) {
 
 			return false;
 		}
+		// start trying factors. we again exploit the fact that primes are
+		// of the form 6k+-1
 		long i = 5;
+		// test up to the square root
 		while (i * i <= n) {
 
+			// test i and i + 2. We don't need to test i + 4 because it's
+			// divisible by 3.
 			if (n % i == 0 || n % (i + 2) == 0) {
 
 				return false;
