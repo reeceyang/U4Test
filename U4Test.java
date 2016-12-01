@@ -43,30 +43,37 @@ public class U4Test extends JApplet {
 		boolean foundPrime = false;
 		long p = 0;
 
-		long count = n % 2 == 0 ? n + 1 : n;
-		count += count % 10 == 5 ? 2 : 0;
+		long count = 6 - (n % 6);
+		int next = 0;
+		if (n + count - 1 < n) {
+
+			count += 1;
+			next = 4;
+		}
+		else {
+
+			count -= 1;
+			next = 2;
+		}
+
 
 		while (!foundPrime) {
 
-			if (isPrime(count, 10)) {
+			if (isPrime(n + count)) {
 
-				p = count;
+				p = n + count;
 				foundPrime = true;
 			}
 
-			count += count + 2 % 10 == 5 ? 4 : 2;
-
-			if (count > 2 * n) {
-
-				foundPrime = true;
-			}
+			count += next;
+			next = next == 2 ? 4 : 2;
 		}
 
 		return p;
 	}
 
-	public static boolean isPrime(long n, int k) {
-
+	public static boolean isPrime(long n) {
+		/*
 		long m = n - 1;
 		// r is the power of 2 in n
 		long r = 0;
@@ -100,8 +107,9 @@ public class U4Test extends JApplet {
 			return false;
 		}
 
-		return true;
-		/*if (n <= 1) {
+		return true; */
+
+		if (n <= 1) {
 
 			return false;
 		}
@@ -124,7 +132,7 @@ public class U4Test extends JApplet {
 			}
 			i = i + 6;
 		}
-		return true;*/
+		return true;
 	}
 
 }
