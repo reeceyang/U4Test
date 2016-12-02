@@ -33,7 +33,6 @@ public class U4Test extends JApplet {
 		out.append("Prime Number = " + p + "\n\n");
 		out.append("Elapsed Time = " + time + " milliseconds");
 
-
 		Container c = getContentPane();
 		c.add(out);
 	}
@@ -46,7 +45,7 @@ public class U4Test extends JApplet {
 		int a = (int) (n % 6);
 		long i = 5 - (a) + n;
 
-		if (a == 0 && isPrime(n + 1)) {
+		if (a == 0 && isPrime(n + 1, 10)) {
 
 			p = n + 1;
 			foundPrime = true;
@@ -68,12 +67,12 @@ public class U4Test extends JApplet {
 		while (!foundPrime) {
 
 			// test if i is prime
-			if (isPrime(i)) {
+			if (isPrime(i, 10)) {
 
 				p = i;
 				foundPrime = true;
 			}
-			else if (isPrime(i + 2)) {
+			else if (isPrime(i + 2, 10)) {
 
 				p = i + 2;
 			}
@@ -84,8 +83,17 @@ public class U4Test extends JApplet {
 		return p;
 	}
 
-	public static boolean isPrime(long n) {
-		/*
+	public static boolean isPrime(long n, int k) {
+
+
+		if (n == 2 || n == 3) {
+
+			return true;
+		}
+		if (n % 2 == 0 || n < 2) {
+
+			return false;
+		}
 		long m = n - 1;
 		// r is the power of 2 in n
 		long r = 0;
@@ -98,29 +106,33 @@ public class U4Test extends JApplet {
 		}
 		d = m;
 
-		for (int i = 0; i < k; i++) {
+		WitnessLoop: do {
 
-			long a = (long)(Math.random() * (n - 3)) + 2;
+			long a = (long) Math.floor(Math.random() * (n - 3)) + 2;
 			long x = (long) Math.pow(a, d) % n;
 
-			if (!(x == 1) &&  !(x == n - 1)) {
+			if (x == 1 || x == n - 1) {
 
-				for (int j = 0; j < r - 1; j++) {
-
-					x = (x * x) % n;
-					if (x == 1) {
-						return false;
-					}
-					if (x == n - 1) {
-						continue;
-					}
-				}
+				continue;
 			}
-			return false;
-		}
 
-		return true; */
+			for (int j = 0; j < r - 1; j++) {
 
+				x = (x * x) % n;
+				if (x == 1) {
+
+					return false;
+				}
+				if (x == n - 1) {
+
+					continue WitnessLoop;
+				}
+				return false;
+			}
+		} while (--k > 0);
+
+		return true;
+		/*
 		// return false if it's divisible by 5
 		if (n % 5 == 0 && n > 5) {
 
@@ -158,6 +170,7 @@ public class U4Test extends JApplet {
 			i = i + 6;
 		}
 		return true;
+		*/
 	}
 
 }
