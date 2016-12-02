@@ -43,43 +43,42 @@ public class U4Test extends JApplet {
 		boolean foundPrime = false;
 		long p = 0;
 
-		// All primes are of the form 6k +- 1. We must set count to a
-		// number so that count + n is of the form 6k +- 1
-		long count;
-		// Sets count so count + n is divisible by 6 to start
-		count = 6 - (n % 6);
-		// next will be added to count after each iteration to go to
-		// the next number
-		int next = 0;
-		// If n + count - 1 is less than n, then add 1 instead
-		if (n + count - 1 < n) {
+		int a = (int) (n % 6);
+		long i = 5 - (a) + n;
 
-			count += 1;
-			// next is 4 because 6k+1+4=6(k+1)-1
-			next = 4;
+		if (a == 0 && isPrime(n + 1)) {
+
+			p = n + 1;
+			foundPrime = true;
 		}
-		// Otherwise, subtract 1
-		else {
+		if (n < 3) {
 
-			count -= 1;
-			// next is 2 because 6k-1+2=6k+1
-			next = 2;
+			if (n < 2) {
+
+				p = 2;
+			}
+			else if (n < 3) {
+
+				p = 3;
+			}
+			foundPrime = true;
 		}
 
 		// keep looping while we haven't found a prime
 		while (!foundPrime) {
 
-			// test if n + count is prime
-			if (isPrime(n + count)) {
+			// test if i is prime
+			if (isPrime(i)) {
 
-				p = n + count;
+				p = i;
 				foundPrime = true;
 			}
+			else if (isPrime(i + 2)) {
 
-			// advance count to the next number
-			count += next;
-			// if next is 2, then set next to 4 and vice versa
-			next = next == 2 ? 4 : 2;
+				p = i + 2;
+			}
+
+			i += 6;
 		}
 
 		return p;
@@ -121,6 +120,12 @@ public class U4Test extends JApplet {
 		}
 
 		return true; */
+
+		// return false if it's divisible by 5
+		if (n % 5 == 0 && n > 5) {
+
+			return false;
+		}
 
 		// any less than or equal to 1 is false
 		if (n <= 1) {
