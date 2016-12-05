@@ -45,7 +45,7 @@ public class U4Test extends JApplet {
 		int a = (int) (n % 6);
 		long i = 5 - (a) + n;
 
-		if (a == 0 && isPrime(n + 1, 10)) {
+		if (a == 0 && miller_rabin(n + 1, 40)) {
 
 			p = n + 1;
 			foundPrime = true;
@@ -67,12 +67,12 @@ public class U4Test extends JApplet {
 		while (!foundPrime) {
 
 			// test if i is prime
-			if (isPrime(i, 10)) {
+			if (miller_rabin(i, 40)) {
 
 				p = i;
 				foundPrime = true;
 			}
-			else if (isPrime(i + 2, 10)) {
+			else if (miller_rabin(i + 2, 40)) {
 
 				p = i + 2;
 			}
@@ -82,8 +82,10 @@ public class U4Test extends JApplet {
 
 		return p;
 	}
-
-	public static boolean isPrime(long n, int k) {
+	
+	// tests if a number isprime using the miller rabin
+	// test. the chance it is incorrect is is (1/4)^k
+	public static boolean miller_rabin(long n, int k) {
 
 
 		if (n == 2 || n == 3) {
@@ -132,7 +134,12 @@ public class U4Test extends JApplet {
 		} while (--k > 0);
 
 		return true;
-		/*
+	}
+	
+	// I decided to keep my original factoring method, but 
+	// it is not used in the execution.
+	public static boolean factoringMethod(long n) {
+		
 		// return false if it's divisible by 5
 		if (n % 5 == 0 && n > 5) {
 
@@ -170,7 +177,5 @@ public class U4Test extends JApplet {
 			i = i + 6;
 		}
 		return true;
-		*/
 	}
-
 }
